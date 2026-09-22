@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Employee Registration Form</title>
+<style>
+  * { box-sizing: border-box; font-family: Arial, sans-serif; }
+  body { margin:0; background:#f3f4f6; color:#111827; min-height:100vh; padding:36px 14px; }
+  .wrap { max-width:820px; margin:0 auto; }
+  .card { background:#fff; border:1px solid #d1d5db; border-radius:12px; padding:26px; box-shadow:0 8px 24px rgba(0,0,0,.07); margin-bottom:18px; }
+  h1 { margin:0 0 8px; font-size:27px; }
+  h2 { margin:0 0 16px; font-size:19px; }
+  .subtitle { color:#6b7280; font-size:14px; margin:0; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:17px; }
+  .field { display:flex; flex-direction:column; }
+  .full { grid-column:1 / -1; }
+  label { font-size:14px; font-weight:700; margin-bottom:7px; }
+  .required { color:#b91c1c; }
+  input, textarea { width:100%; padding:11px 12px; border:1px solid #cbd5e1; border-radius:7px; font-size:14px; background:white; outline:none; }
+  input:focus, textarea:focus { border-color:#4b5563; box-shadow:0 0 0 2px rgba(75,85,99,.12); }
+  textarea { resize:vertical; min-height:100px; }
+  .hint { margin-top:5px; font-size:12px; color:#6b7280; }
+  .error { min-height:16px; margin-top:4px; font-size:12px; color:#b91c1c; }
+  .invalid { border-color:#b91c1c !important; }
+  .file-info { display:none; margin-top:7px; padding:8px 10px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:6px; font-size:13px; }
+  .actions { margin-top:23px; display:flex; justify-content:flex-end; gap:10px; }
+  button { padding:11px 19px; border:0; border-radius:7px; font-size:14px; font-weight:700; cursor:pointer; }
+  .primary { background:#1f2937; color:white; }
+  .secondary { background:#e5e7eb; color:#111827; }
+  .counter { text-align:right; color:#6b7280; font-size:12px; margin-top:5px; }
+  @media (max-width:650px) {
+    .grid { grid-template-columns:1fr; }
+    .full { grid-column:auto; }
+    .actions { flex-direction:column; }
+    .actions button { width:100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Employee Registration Form</h1>
+    <p class="subtitle">GitHub Pages + FormSubmit version</p>
+  </div>
+
+  <div class="card">
+    <h2>Employee Details</h2>
+
+    <!-- Replace YOUR_EMAIL@COMPANY.COM with the destination mailbox before publishing -->
+    <form id="employeeForm"
+          action="https://formsubmit.co/YOUR_EMAIL@COMPANY.COM"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate>
+
+      <input type="hidden" name="_subject" id="subjectField" value="New Employee Registration">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="true">
+      <input type="text" name="_honey" style="display:none">
+
+      <div class="grid">
+        <div class="field">
+          <label for="employeeId">Employee ID <span class="required">*</span></label>
+          <input id="employeeId" name="Employee ID" type="text" placeholder="EMP-12345">
+          <div class="hint">Format: EMP- followed by 5 digits.</div>
+          <div class="error" id="employeeIdError"></div>
+        </div>
+
+        <div class="field">
+          <label for="fullName">Full Name <span class="required">*</span></label>
+          <input id="fullName" name="Full Name" type="text" placeholder="Enter full name">
+          <div class="error" id="fullNameError"></div>
+        </div>
+
+        <div class="field">
+          <label for="email">Employee Email <span class="required">*</span></label>
+          <input id="email" name="email" type="text" placeholder="name@company.com">
+          <div class="error" id="emailError"></div>
+        </div>
+
+        <div class="field">
+          <label for="phone">Mobile Number <span class="required">*</span></label>
+          <input id="phone" name="Mobile Number" type="text" maxlength="10" placeholder="10 digit number">
+          <div class="error" id="phoneError"></div>
+        </div>
+
+        <div class="field">
+          <label for="department">Department <span class="required">*</span></label>
+          <input id="department" name="Department" type="text" placeholder="Cloud Infrastructure">
+          <div class="error" id="departmentError"></div>
+        </div>
+
+        <div class="field">
+          <label for="location">Location <span class="required">*</span></label>
+          <input id="location" name="Location" type="text" placeholder="Pune">
+          <div class="error" id="locationError"></div>
+        </div>
+
+        <div class="field">
+          <label for="joiningDate">Joining Date <span class="required">*</span></label>
+          <input id="joiningDate" name="Joining Date" type="text" placeholder="DD-MM-YYYY">
+          <div class="error" id="joiningDateError"></div>
+        </div>
+
+        <div class="field">
+          <label for="employmentType">Employment Type <span class="required">*</span></label>
+          <input id="employmentType" name="Employment Type" type="text" placeholder="Permanent">
+          <div class="error" id="employmentTypeError"></div>
+        </div>
+
+        <div class="field full">
+          <label for="manager">Manager Name <span class="required">*</span></label>
+          <input id="manager" name="Manager Name" type="text" placeholder="Enter manager name">
+          <div class="error" id="managerError"></div>
+        </div>
+
+        <div class="field full">
+          <label for="attachment">Attachment</label>
+          <input id="attachment" name="attachment" type="file"
+                 accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.png,.jpg,.jpeg">
+          <div class="hint">Optional. Maximum 10 MB.</div>
+          <div class="error" id="attachmentError"></div>
+          <div id="fileInfo" class="file-info"></div>
+        </div>
+
+        <div class="field full">
+          <label for="comments">Additional Comments</label>
+          <textarea id="comments" name="Additional Comments" maxlength="500"
+                    placeholder="Optional comments..."></textarea>
+          <div class="counter"><span id="commentCount">0</span>/500</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="reset" class="secondary">Clear</button>
+        <button type="submit" class="primary">Submit Registration</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById("employeeForm");
+const attachment = document.getElementById("attachment");
+const comments = document.getElementById("comments");
+const fileInfo = document.getElementById("fileInfo");
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+function showError(fieldId, message) {
+  const field = document.getElementById(fieldId);
+  const error = document.getElementById(fieldId + "Error");
+  if (error) error.textContent = message;
+  if (message) field.classList.add("invalid");
+  else field.classList.remove("invalid");
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidDate(value) {
+  const match = value.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+  if (!match) return false;
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year &&
+         date.getMonth() === month - 1 &&
+         date.getDate() === day;
+}
+
+function validateForm() {
+  let valid = true;
+
+  const employeeId = document.getElementById("employeeId").value.trim();
+  const fullName = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const department = document.getElementById("department").value.trim();
+  const location = document.getElementById("location").value.trim();
+  const joiningDate = document.getElementById("joiningDate").value.trim();
+  const employmentType = document.getElementById("employmentType").value.trim();
+  const manager = document.getElementById("manager").value.trim();
+
+  const employeeIdPattern = /^EMP-\d{5}$/i;
+  const namePattern = /^[A-Za-z][A-Za-z .'-]{1,59}$/;
+  const freeTextPattern = /^[A-Za-z0-9][A-Za-z0-9 .,&()\/'-]{1,79}$/;
+
+  if (!employeeIdPattern.test(employeeId)) {
+    showError("employeeId", "Employee ID must be in the format EMP-12345.");
+    valid = false;
+  } else showError("employeeId", "");
+
+  if (!namePattern.test(fullName)) {
+    showError("fullName", "Enter a valid full name.");
+    valid = false;
+  } else showError("fullName", "");
+
+  if (!isValidEmail(email)) {
+    showError("email", "Enter a valid employee email.");
+    valid = false;
+  } else showError("email", "");
+
+  if (!/^\d{10}$/.test(phone)) {
+    showError("phone", "Mobile number must contain exactly 10 digits.");
+    valid = false;
+  } else showError("phone", "");
+
+  if (!freeTextPattern.test(department)) {
+    showError("department", "Enter a valid department.");
+    valid = false;
+  } else showError("department", "");
+
+  if (!freeTextPattern.test(location)) {
+    showError("location", "Enter a valid location.");
+    valid = false;
+  } else showError("location", "");
+
+  if (!isValidDate(joiningDate)) {
+    showError("joiningDate", "Enter a valid date in DD-MM-YYYY format.");
+    valid = false;
+  } else showError("joiningDate", "");
+
+  if (!freeTextPattern.test(employmentType)) {
+    showError("employmentType", "Enter a valid employment type.");
+    valid = false;
+  } else showError("employmentType", "");
+
+  if (!namePattern.test(manager)) {
+    showError("manager", "Enter a valid manager name.");
+    valid = false;
+  } else showError("manager", "");
+
+  if (attachment.files.length > 0) {
+    const file = attachment.files[0];
+    if (file.size > MAX_FILE_SIZE) {
+      showError("attachment", "Attachment must be 10 MB or smaller.");
+      valid = false;
+    } else showError("attachment", "");
+  } else showError("attachment", "");
+
+  return valid;
+}
+
+document.getElementById("phone").addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "").slice(0, 10);
+});
+
+comments.addEventListener("input", function () {
+  document.getElementById("commentCount").textContent = this.value.length;
+});
+
+attachment.addEventListener("change", function () {
+  fileInfo.style.display = "none";
+  fileInfo.textContent = "";
+  showError("attachment", "");
+
+  if (!this.files.length) return;
+
+  const file = this.files[0];
+  const mb = (file.size / (1024 * 1024)).toFixed(2);
+
+  if (file.size > MAX_FILE_SIZE) {
+    showError("attachment", "Attachment must be 10 MB or smaller.");
+    this.value = "";
+    return;
+  }
+
+  fileInfo.textContent = `Selected: ${file.name} (${mb} MB)`;
+  fileInfo.style.display = "block";
+});
+
+form.addEventListener("submit", function (event) {
+  if (!validateForm()) {
+    event.preventDefault();
+    return;
+  }
+
+  const employeeId = document.getElementById("employeeId").value.trim();
+  const fullName = document.getElementById("fullName").value.trim();
+
+  document.getElementById("subjectField").value =
+    `Employee Registration - ${employeeId} - ${fullName}`;
+});
+
+form.addEventListener("reset", function () {
+  setTimeout(function () {
+    document.querySelectorAll(".error").forEach(e => e.textContent = "");
+    document.querySelectorAll(".invalid").forEach(e => e.classList.remove("invalid"));
+    document.getElementById("commentCount").textContent = "0";
+    fileInfo.textContent = "";
+    fileInfo.style.display = "none";
+  }, 0);
+});
+</script>
+</body>
+</html>
